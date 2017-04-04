@@ -1,0 +1,64 @@
+﻿<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../xenon-dropdown/xenon-dropdown.html"/>
+<link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html" />
+<link rel="import" href="../iron-form-element-behavior/iron-form-element-behavior.html" />
+
+<!--
+`<xenon-typeahead>` provides a simple dropdown list that allows predictive text from provided items.
+
+Example:
+
+           `<xenon-typeahead label="numbers" items="[1,11,3,35,54321]"></xenon-typeahead>`
+
+@element xenon-typeahead
+@demo demo/index.html
+-->
+<dom-module id="xenon-typeahead">
+    <template>
+        <xenon-dropdown id="input" label="[[label]]" required="[[required]]" _text="{{_value}}" selected="{{value}}" allowed-pattern="" error-message="[[errorMessage]]">
+            <template is="dom-repeat" items="[[items]]" filter="{{_search(_value)}}">
+                <div value="[[item]]">[[item]]</div>
+            </template>
+        </xenon-dropdown>
+    </template>
+    <script>
+		Polymer({
+			is:"xenon-typeahead",
+			properties: {
+				/* the list of items to select from */
+			    items: { type: Array, notify: true },
+			    /* the selected or typed value */
+			    value: { type: String, notify: true, observer:"_onValueChanged" },
+			    /* Gives the dropdown list a lable. */
+			    label: { type: String, notify: true, reflectToAttribute: true },
+			    /* Displays an erro message */
+			    errorMessage: String,
+			    /* flag to determine if input is required */
+                required: Boolean
+			},
+			behaviors: [
+              Polymer.IronValidatableBehavior,
+              Polymer.IronFormElementBehavior
+			],
+			_search: function (text) {
+			    this.set("value", text);
+                //console.log("typeahead-change",text)
+			    if (!text) {
+			        this.$.input.open();
+			        return null;
+			    }
+			    else {
+			        return function (item) {
+			            return item.toString().toLowerCase().includes(text.toLowerCase());
+			        }
+			    }
+			},
+			validate: function () {
+			    return this.$.input.validate();
+			},
+			_onValueChanged: function (newVal) {
+			    this.set("_value", newVal);
+			}
+		});
+    </script>
+</dom-module>

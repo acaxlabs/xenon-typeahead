@@ -1,0 +1,17 @@
+{
+  "name": "xenon-typeahead",
+  "authors": [
+    "ACA[X]Labs"
+  ],
+  "description": "typeahead that allows pre-selection from list of items",
+  "main": "xenon-typeahead.html",
+  "license": "MIT",
+  "homepage": "https://github.com/acaxlabs/xenon-typeahead.git",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior",
+    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior",
+    "xenon-dropdown": "acaxlabs/xenon-dropdown"
+  }
+}
